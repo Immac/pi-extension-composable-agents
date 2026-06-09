@@ -1,29 +1,34 @@
-# composable-agents-pi
+# 🔧 Composable Agents Pi Extension
 
-Pi extension for the [Composable Agents](https://github.com/Immac/composable-agents) framework. Adds tools to run pipelines, validate agents, and inspect agent manifests directly from your pi session.
+Pi extension for the [Composable Agents](https://github.com/Immac/composable-agents) framework. Run pipelines, validate agents, and inspect agent manifests directly from your pi session.
 
 ![TypeScript](https://img.shields.io/badge/TypeScript-5.x-blue?style=flat-square&logo=typescript)
 ![MIT License](https://img.shields.io/badge/license-MIT-green?style=flat-square)
 ![Pi Extension](https://img.shields.io/badge/pi--extension-orange?style=flat-square)
 
-## Features
+## ✨ Features
 
-- 🔍 **Validate agents** — check agent.yaml files for schema errors before running
-- 📋 **List agents** — scan directories for all agents with validation status
+- 🔍 **Validate agents** — catch schema errors, missing fields, bad types before running
+- 📋 **List agents** — scan directories for all agent.yaml files with validation status
 - 🔎 **Inspect agents** — view full agent manifests as structured JSON
 - ▶️ **Run pipelines** — execute pipeline.yaml files with real-time streaming output
-- 📦 **Example agents** — ships with an agent-scaffolder to learn the pattern
+- 📦 **Example agents** — ships with agent-scaffolder to learn the pattern
 
-## Tools
+## 📦 Tools
 
 | Tool | Description |
-|------|-------------|
+|---|---|
 | `run-pipeline` | Execute a pipeline.yaml and stream JSON-line progress |
 | `validate` | Check an agent.yaml for schema errors |
 | `list-agents` | Find all agent.yaml files in a directory |
 | `inspect-agent` | Load and return an agent's manifest as JSON |
 
-## Quick Start
+## 🚀 Quick Start
+
+### Prerequisites
+
+- Node.js 18+
+- Pi coding agent installed
 
 ### Install
 
@@ -43,9 +48,9 @@ Restart pi, then:
 List agents in ./agents/
 ```
 
-The LLM will automatically use the `list-agents` tool to find and validate all agents in the directory.
+The LLM will automatically use the `list-agents` tool to find and validate all agents.
 
-## Usage Examples
+## 💡 Usage Examples
 
 ### Validate an agent
 
@@ -71,40 +76,28 @@ Run the pipeline at ./pipelines/deploy.yaml
 Inspect the agent-scaffolder example at ~/.extension-manager/extensions/composable-agents/examples/agent-scaffolder/agent.yaml
 ```
 
-## Examples
+## 📂 Examples
 
-The extension ships with an example **agent-scaffolder** — a code agent that creates new agents from a name and type. It demonstrates:
+The extension ships with an example **agent-scaffolder** — a code agent that creates new agents from a name and type.
+
+```
+examples/
+├── agent-scaffolder/
+│   ├── agent.yaml      # Agent declaration
+│   └── index.ts        # Creates agent.yaml + implementation files
+└── pipelines/
+    └── scaffold-agent.yaml  # Example pipeline
+```
+
+### What it demonstrates
 
 - How agents declare inputs/outputs via cabinet keys
 - How code agents read from `scope.blackboard` and `scope.cabinet`
 - How to create agent.yaml and implementation files programmatically
 
-Located at: `examples/agent-scaffolder/`
+## 🔧 How It Works
 
-## Development
-
-### Prerequisites
-
-- Node.js 18+
-- Pi coding agent installed
-
-### Setup
-
-```bash
-git clone git@github.com:Immac/pi-extension-composable-agents.git
-cd pi-extension-composable-agents
-npm install
-```
-
-### Test
-
-```bash
-pi -e ./index.ts
-```
-
-## Architecture
-
-This is a tool extension. It registers 4 tools with pi's LLM via `pi.registerTool()`. Each tool spawns the `composable-agents` CLI as a child process and reads JSON lines from stdout.
+Each tool spawns the `composable-agents` CLI as a child process and reads JSON lines from stdout:
 
 ```
 pi TUI
@@ -115,12 +108,33 @@ pi TUI
         └── inspect-agent   → composable-agents inspect <path>
 ```
 
-## Resources
+## 🛠️ Development
 
-- [Composable Agents Framework](https://github.com/Immac/composable-agents)
-- [Pi Extension Docs](https://github.com/earendil-works/pi-coding-agent/blob/main/docs/extensions.md)
-- [Composable Agents Spec](https://github.com/Immac/composable-agents/blob/main/SPEC.md)
+### Prerequisites
 
-## License
+- Node.js 18+
+- npm
+
+### Setup
+
+```bash
+git clone git@github.com:Immac/pi-extension-composable-agents.git
+cd pi-extension-composable-agents
+npm install
+```
+
+### Validate
+
+```bash
+npx tsc --noEmit
+```
+
+### Test Locally
+
+```bash
+pi -e ./index.ts
+```
+
+## 📄 License
 
 MIT
