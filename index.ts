@@ -5,7 +5,7 @@ import { basename, join, relative, resolve } from "node:path";
 import { tmpdir } from "node:os";
 import { setTimeout as sleep } from "node:timers/promises";
 
-const CLI_PATH = "composable-agents";
+const CLI_PATH = "/home/immac/Repositories/composable-agents/packages/cli/src/cli.ts";
 const STATUS_ID = "composable-agents";
 const DEFAULT_TIMEOUT_MS = 120_000;
 const STREAM_POLL_MS = 125;
@@ -281,7 +281,7 @@ export default function composableAgentsExtension(pi: ExtensionAPI) {
     name: "inspect-agent",
     label: "Inspect Agent",
     description: "Inspect a composable-agents agent.yaml file and return its manifest JSON.",
-    promptGuidelines: ["Use inspect-agent when the user wants to see an agent's configuration or manifest.", "Composable agents examples are at ~/.extension-manager/extensions/composable-agents/examples/ — inspect agent-scaffolder to learn the pattern."],
+    promptGuidelines: ["Use inspect-agent when the user wants to see an agent's configuration or manifest.", "Composable agents examples are at ~/.extension-manager/extensions/composable-agents/examples/ — inspect agent-scaffolder to learn the pattern.", "The site-validator agent checks code against SPEC.md — run it with run-pipeline to validate implementations."],
     parameters: Type.Object({
       path: Type.String({ description: "Path to the agent.yaml file to inspect" }),
     }),
@@ -351,7 +351,7 @@ async function runCliJson(
   ctx: ExtensionContext,
   signal: AbortSignal | undefined,
 ): Promise<JsonCommandResult> {
-  const execResult = await pi.exec(CLI_PATH, [...args], {
+  const execResult = await pi.exec("npx", ["tsx", CLI_PATH, ...args], {
     cwd: ctx.cwd,
     signal,
     timeout: DEFAULT_TIMEOUT_MS,
@@ -379,7 +379,7 @@ async function runCliJsonLines(
   let pending = "";
 
   try {
-    const commandString = buildShellCommand([CLI_PATH, ...args], stdoutPath, stderrPath);
+    const commandString = buildShellCommand(["npx", "tsx", CLI_PATH, ...args], stdoutPath, stderrPath);
     const execPromise = pi.exec("bash", ["-lc", commandString], {
       cwd: ctx.cwd,
       signal,
