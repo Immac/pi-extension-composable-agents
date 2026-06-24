@@ -1,8 +1,0 @@
-id: agent-scaffolder
-type: code
-version: 0.1.0
-purpose: "Creates new composable agents from a name and type"
-code:
-  entrypoint: ./index.ts
-learning:
-  channels: []

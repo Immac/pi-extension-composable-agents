@@ -28,10 +28,10 @@ export default function composableAgentsExtension(pi: ExtensionAPI) {
     name: "run-pipeline",
     label: "Run Pipeline",
     description:
-      "Run a composable-agents pipeline.yaml file and stream JSON-line progress from the CLI into the tool output.",
+      "Run a composable-agents pipeline.json file and stream JSON-line progress from the CLI into the tool output.",
     promptGuidelines: ["Use run-pipeline when the user wants to execute a composable-agents pipeline."],
     parameters: Type.Object({
-      path: Type.String({ description: "Path to the pipeline.yaml file to run" }),
+      path: Type.String({ description: "Path to the pipeline.json file to run" }),
     }),
     async execute(_toolCallId, params, signal, onUpdate, ctx) {
       if (signal?.aborted) {
@@ -84,10 +84,10 @@ export default function composableAgentsExtension(pi: ExtensionAPI) {
   pi.registerTool({
     name: "validate",
     label: "Validate Agent",
-    description: "Validate a composable-agents agent.yaml file via the CLI.",
-    promptGuidelines: ["Use validate when the user wants to check an agent.yaml for errors."],
+    description: "Validate a composable-agents agent.json file via the CLI.",
+    promptGuidelines: ["Use validate when the user wants to check an agent.json for errors."],
     parameters: Type.Object({
-      path: Type.String({ description: "Path to the agent.yaml file to validate" }),
+      path: Type.String({ description: "Path to the agent.json file to validate" }),
     }),
     async execute(_toolCallId, params, signal, onUpdate, ctx) {
       if (signal?.aborted) {
@@ -154,10 +154,10 @@ export default function composableAgentsExtension(pi: ExtensionAPI) {
   pi.registerTool({
     name: "list-agents",
     label: "List Agents",
-    description: "Find every agent.yaml under a directory, validate each one, and return the combined results.",
+    description: "Find every agent.json under a directory, validate each one, and return the combined results.",
     promptGuidelines: ["Use list-agents when the user wants to find or list composable agents in a directory."],
     parameters: Type.Object({
-      directory: Type.String({ description: "Directory to search for agent.yaml files" }),
+      directory: Type.String({ description: "Directory to search for agent.json files" }),
     }),
     async execute(_toolCallId, params, signal, onUpdate, ctx) {
       if (signal?.aborted) {
@@ -169,12 +169,12 @@ export default function composableAgentsExtension(pi: ExtensionAPI) {
       ctx.ui.notify(`Scanning for agents in ${displayDirectory}`, "info");
       ctx.ui.setStatus(STATUS_ID, `Scanning agents: ${displayDirectory}`);
       onUpdate?.({
-        content: [{ type: "text" as const, text: `Searching ${displayDirectory} for agent.yaml files...` }],
+        content: [{ type: "text" as const, text: `Searching ${displayDirectory} for agent.json files...` }],
         details: { stage: "finding", directory: absoluteDirectory },
       });
 
       try {
-        const findResult = await pi.exec("find", [absoluteDirectory, "-type", "f", "-name", "agent.yaml"], {
+        const findResult = await pi.exec("find", [absoluteDirectory, "-type", "f", "-name", "agent.json"], {
           cwd: ctx.cwd,
           signal,
           timeout: DEFAULT_TIMEOUT_MS,
@@ -192,10 +192,10 @@ export default function composableAgentsExtension(pi: ExtensionAPI) {
 
         if (files.length === 0) {
           onUpdate?.({
-            content: [{ type: "text" as const, text: `No agent.yaml files found in ${displayDirectory}` }],
+            content: [{ type: "text" as const, text: `No agent.json files found in ${displayDirectory}` }],
             details: { stage: "complete", count: 0 },
           });
-          ctx.ui.notify(`No agent.yaml files found in ${displayDirectory}`, "info");
+          ctx.ui.notify(`No agent.json files found in ${displayDirectory}`, "info");
           ctx.ui.setStatus(STATUS_ID, `No agents found: ${displayDirectory}`);
           return {
             content: [{ type: "text" as const, text: "[]" }],
@@ -280,10 +280,10 @@ export default function composableAgentsExtension(pi: ExtensionAPI) {
   pi.registerTool({
     name: "inspect-agent",
     label: "Inspect Agent",
-    description: "Inspect a composable-agents agent.yaml file and return its manifest JSON.",
+    description: "Inspect a composable-agents agent.json file and return its manifest JSON.",
     promptGuidelines: ["Use inspect-agent when the user wants to see an agent's configuration or manifest.", "Composable agents examples are at ~/.extension-manager/extensions/composable-agents/examples/ — inspect agent-scaffolder to learn the pattern.", "The site-validator agent checks code against SPEC.md — run it with run-pipeline to validate implementations."],
     parameters: Type.Object({
-      path: Type.String({ description: "Path to the agent.yaml file to inspect" }),
+      path: Type.String({ description: "Path to the agent.json file to inspect" }),
     }),
     async execute(_toolCallId, params, signal, onUpdate, ctx) {
       if (signal?.aborted) {

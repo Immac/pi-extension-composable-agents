@@ -6,7 +6,7 @@
  *   agent/type  — "llm" | "code" | "composite"
  *
  * Output:
- *   Creates agents/<name>/agent.yaml and agents/<name>/index.ts (or prompt.md)
+ *   Creates agents/<name>/agent.json and agents/<name>/index.ts (or prompt.md)
  */
 
 import { mkdirSync, writeFileSync } from 'node:fs';
@@ -24,14 +24,21 @@ export default {
     const dir = resolve(process.cwd(), 'agents', name);
     mkdirSync(dir, { recursive: true });
 
-    // agent.yaml
-    const yaml = type === 'llm'
-      ? `id: ${name}\ntype: llm\nversion: 0.1.0\npurpose: "Describe what this agent does"\nllm:\n  prompt_template: ./prompt.md\n  model: opencode-go/deepseek4flash\n  temperature: 0.7\nlearning:\n  channels: []\n`
-      : type === 'composite'
-      ? `id: ${name}\ntype: composite\nversion: 0.1.0\npurpose: "Describe what this composite agent does"\npipeline: []\nlearning:\n  channels: []\n`
-      : `id: ${name}\ntype: code\nversion: 0.1.0\npurpose: "Describe what this agent does"\ncode:\n  entrypoint: ./index.ts\nlearning:\n  channels: []\n`;
+    // agent.json (JSON-serialized agent manifest, valid YAML superset)
+    const manifest = {
+      id: name,
+      type,
+      version: '0.1.0',
+      purpose: 'Describe what this agent does',
+      ...(type === 'llm'
+        ? { llm: { prompt_template: './prompt.md', model: 'opencode-go/deepseek4flash', temperature: 0.7 } }
+        : type === 'composite'
+        ? { pipeline: [] }
+        : { code: { entrypoint: './index.ts' } }),
+      learning: { channels: [] },
+    };
 
-    writeFileSync(resolve(dir, 'agent.yaml'), yaml);
+    writeFileSync(resolve(dir, 'agent.json'), JSON.stringify(manifest, null, 2));
 
     // Implementation file
     if (type === 'llm') {

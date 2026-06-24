@@ -1,0 +1,4 @@
+{
+  "name": "scaffold-agent",
+  "pipeline": ["agent-scaffolder"]
+}

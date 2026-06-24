@@ -9,18 +9,18 @@ Pi extension for the [Composable Agents](https://github.com/Immac/composable-age
 ## ✨ Features
 
 - 🔍 **Validate agents** — catch schema errors, missing fields, bad types before running
-- 📋 **List agents** — scan directories for all agent.yaml files with validation status
+- 📋 **List agents** — scan directories for all agent.json files with validation status
 - 🔎 **Inspect agents** — view full agent manifests as structured JSON
-- ▶️ **Run pipelines** — execute pipeline.yaml files with real-time streaming output
+- ▶️ **Run pipelines** — execute pipeline.json files with real-time streaming output
 - 📦 **Example agents** — ships with agent-scaffolder to learn the pattern
 
 ## 📦 Tools
 
 | Tool | Description |
 |---|---|
-| `run-pipeline` | Execute a pipeline.yaml and stream JSON-line progress |
-| `validate` | Check an agent.yaml for schema errors |
-| `list-agents` | Find all agent.yaml files in a directory |
+| `run-pipeline` | Execute a pipeline.json and stream JSON-line progress |
+| `validate` | Check an agent.json for schema errors |
+| `list-agents` | Find all agent.json files in a directory |
 | `inspect-agent` | Load and return an agent's manifest as JSON |
 
 ## 🚀 Quick Start
@@ -55,25 +55,25 @@ The LLM will automatically use the `list-agents` tool to find and validate all a
 ### Validate an agent
 
 ```
-Validate the agent at ./agents/echo/agent.yaml
+Validate the agent at ./agents/echo/agent.json
 ```
 
 ### Inspect an agent
 
 ```
-Show me the manifest for ./agents/my-agent/agent.yaml
+Show me the manifest for ./agents/my-agent/agent.json
 ```
 
 ### Run a pipeline
 
 ```
-Run the pipeline at ./pipelines/deploy.yaml
+Run the pipeline at ./pipelines/deploy.json
 ```
 
 ### Learn from examples
 
 ```
-Inspect the agent-scaffolder example at ~/.extension-manager/extensions/composable-agents/examples/agent-scaffolder/agent.yaml
+Inspect the agent-scaffolder example at ~/.extension-manager/extensions/composable-agents/examples/agent-scaffolder/agent.json
 ```
 
 ## 📂 Examples
@@ -83,17 +83,17 @@ The extension ships with an example **agent-scaffolder** — a code agent that c
 ```
 examples/
 ├── agent-scaffolder/
-│   ├── agent.yaml      # Agent declaration
-│   └── index.ts        # Creates agent.yaml + implementation files
+│   ├── agent.json      # Agent declaration (JSON)
+│   └── index.ts        # Creates agent.json + implementation files
 └── pipelines/
-    └── scaffold-agent.yaml  # Example pipeline
+    └── scaffold-agent.json  # Example pipeline (JSON, valid YAML superset)
 ```
 
 ### What it demonstrates
 
 - How agents declare inputs/outputs via cabinet keys
 - How code agents read from `scope.blackboard` and `scope.cabinet`
-- How to create agent.yaml and implementation files programmatically
+- How to create agent.json and implementation files programmatically
 
 ## 🔧 How It Works
 
