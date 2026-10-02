@@ -5,11 +5,9 @@
   "description": "Composable Agents tools — run pipelines, validate agents, list and inspect agents",
   "type": "module",
   "keywords": ["pi-package", "composable-agents", "pipelines"],
-  "dependencies": {
-    "typebox": "^1.1.24"
-  },
   "peerDependencies": {
-    "@earendil-works/pi-coding-agent": "*"
+    "@earendil-works/pi-coding-agent": "*",
+    "typebox": "*"
   },
   "pi": {
     "extensions": ["./index.ts"]
